@@ -1,19 +1,20 @@
 <template>
   <div id="app">
-    <home />
+    <vue-doro />
   </div>
 </template>
 
 <script>
-import Home from '@/pages/Home'
+import VueDoro from '@/components/VueDoro'
 
 export default {
   name: 'App',
   components: {
-    Home,
+    VueDoro,
   },
 }
 </script>
 
 <style lang="stylus">
+  @import './styles/global.styl'
 </style>
