@@ -2,14 +2,10 @@
   <div class="page page--focus">
     <app-header />
     <main class="page__main">
-      <h2>Focus time</h2>
+      <h2 style="font-size: 1.8rem">Focus time</h2>
       <vue-doro-timer :timer="focus" :isPlaying="isPlaying" />
       <span>{{ actualRound }}/{{ rounds }} rounds</span>
-      <div>
-        <button>adjusts</button>
-        <button>play</button>
-        <button>next</button>
-      </div>
+      <vue-doro-actions @toggleIsPlaying="toggleIsPlaying" />
     </main>
   </div>
 </template>
@@ -17,11 +13,13 @@
 <script>
 import AppHeader from '@/components/AppHeader'
 import VueDoroTimer from '@/components/VueDoroTimer'
+import VueDoroActions from '@/components/VueDoroActions'
 
 export default {
   components: {
     AppHeader,
     VueDoroTimer,
+    VueDoroActions,
   },
   data() {
     return {
@@ -32,6 +30,11 @@ export default {
       longBreak: '15:00',
       isPlaying: false,
     }
+  },
+  methods: {
+    toggleIsPlaying(value) {
+      this.isPlaying = value
+    },
   },
 }
 </script>

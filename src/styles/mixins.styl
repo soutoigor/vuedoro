@@ -5,3 +5,9 @@ alignCenter()
 justifyCenter()
   display flex
   justify-content center
+
+hoverTransition()
+  transition background-color linear .3s
+  &:hover
+    background-color rgba(#000, .09)
+    transition @transition
