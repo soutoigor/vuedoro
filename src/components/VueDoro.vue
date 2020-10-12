@@ -3,10 +3,8 @@
     <app-header />
     <main class="page__main">
       <h2>Focus time</h2>
-      <div>
-        <span>25:00</span>
-      </div>
-      <span>1/4 rounds</span>
+      <vue-doro-timer :timer="focus" :isPlaying="isPlaying" />
+      <span>{{ actualRound }}/{{ rounds }} rounds</span>
       <div>
         <button>adjusts</button>
         <button>play</button>
@@ -18,10 +16,22 @@
 
 <script>
 import AppHeader from '@/components/AppHeader'
+import VueDoroTimer from '@/components/VueDoroTimer'
 
 export default {
   components: {
     AppHeader,
+    VueDoroTimer,
+  },
+  data() {
+    return {
+      actualRound: 1,
+      rounds: 4,
+      focus: '25:00',
+      shortBreak: '05:00',
+      longBreak: '15:00',
+      isPlaying: false,
+    }
   },
 }
 </script>
