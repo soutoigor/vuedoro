@@ -18,7 +18,10 @@
         />
       </transition-group>
     </button>
-    <button class="actions__button">
+    <button
+      class="actions__button"
+      @click="skipStep"
+    >
       <skip-forward-icon />
     </button>
   </div>
@@ -45,6 +48,9 @@ export default {
     }
   },
   methods: {
+    skipStep() {
+      this.$emit('skipStep')
+    },
     toggleIsPlaying() {
       this.isPlaying = !this.isPlaying
       this.$emit('toggleIsPlaying', this.isPlaying)
