@@ -8,6 +8,7 @@
 
 <script>
 import moment from 'moment'
+import alarm from '@/assets/alarm.mp3'
 
 export default {
   props: {
@@ -27,18 +28,41 @@ export default {
     }
   },
   created() {
-    this.actualTimer = this.timer
+    this.setActualTimer(this.timer)
   },
   watch: {
-    isPlaying(value) {
-      if (value) {
+    timer(value) {
+      this.setActualTimer(value)
+      this.stopCountdownTimer()
+      this.initCountdownTimer()
+    },
+    isPlaying(playing) {
+      if (playing) {
         this.initCountdownTimer()
       } else {
         this.stopCountdownTimer()
+        document.title = 'VueDoro'
+      }
+    },
+    actualTimer(value, oldValue) {
+      if (this.isPlaying) {
+        document.title = value
+      }
+      if (oldValue === '00:01' && value === '00:00') {
+        this.stopCountdownTimer()
+        this.playAlarm()
+        this.setTimeFinished()
       }
     },
   },
   methods: {
+    setTimeFinished() {
+      this.$emit('timeFinished')
+    },
+    playAlarm() {
+      const audio = new Audio(alarm)
+      audio.play()
+    },
     setActualTimer(value) {
       this.actualTimer = value
     },
