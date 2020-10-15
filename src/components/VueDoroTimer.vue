@@ -33,20 +33,22 @@ export default {
   watch: {
     timer(value) {
       this.setActualTimer(value)
-      this.stopCountdownTimer()
-      this.initCountdownTimer()
+      if (this.isPlaying) {
+        this.stopCountdownTimer()
+        this.initCountdownTimer()
+      }
     },
     isPlaying(playing) {
       if (playing) {
         this.initCountdownTimer()
       } else {
         this.stopCountdownTimer()
-        document.title = 'VueDoro'
+        this.changePageTitle('VueDoro')
       }
     },
     actualTimer(value, oldValue) {
       if (this.isPlaying) {
-        document.title = value
+        this.changePageTitle(value)
       }
       if (oldValue === '00:01' && value === '00:00') {
         this.stopCountdownTimer()
@@ -56,6 +58,9 @@ export default {
     },
   },
   methods: {
+    changePageTitle(value) {
+      document.title = value
+    },
     setTimeFinished() {
       this.$emit('timeFinished')
     },
