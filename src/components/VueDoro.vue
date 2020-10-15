@@ -12,6 +12,7 @@
         {{ actualRound }}/{{ rounds }} rounds
       </span>
       <vue-doro-actions
+        @setAdjustments="setSteps"
         @toggleIsPlaying="setIsPlaying"
         @skipStep="setNextStep"
       />
@@ -90,6 +91,17 @@ export default {
     setActualRound(value) {
       this.actualRound = value
     },
+    setSteps(steps) {
+      Object.entries(steps).forEach(([key, value]) => {
+        if (key === 'rounds') {
+          this.rounds = +value
+        } else {
+          this.steps[key].time = value
+        }
+        this.setActualRound(1)
+        this.setActualStep(this.steps.focus)
+      })
+    },
   },
 }
 </script>
@@ -126,7 +138,8 @@ export default {
       grid-template-rows 12% 50% 15% 20%
 
 .main__step-title
-  font-size 2rem
+  font-size 2.1rem
+  font-weight 400
   @media screen and (max-width $mobile)
     font-size 1.7rem
 

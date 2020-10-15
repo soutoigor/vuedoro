@@ -1,6 +1,9 @@
 <template>
   <div class="actions">
-    <button class="actions__button">
+    <button
+      class="actions__button"
+      @click="toggleModal"
+    >
       <sliders-icon />
     </button>
     <button
@@ -24,6 +27,11 @@
     >
       <skip-forward-icon />
     </button>
+    <action-adjustments
+      v-show="isShowingAdjustments"
+      @setAdjustments="setAdjustments"
+      @close="toggleModal"
+    />
   </div>
 </template>
 
@@ -41,19 +49,27 @@ export default {
     PlayIcon,
     PauseIcon,
     SkipForwardIcon,
+    ActionAdjustments: () => import('@/components/ActionAdjustments'),
   },
   data() {
     return {
       isPlaying: false,
+      isShowingAdjustments: false,
     }
   },
   methods: {
+    setAdjustments(adjustments) {
+      this.$emit('setAdjustments', adjustments)
+    },
     skipStep() {
       this.$emit('skipStep')
     },
     toggleIsPlaying() {
       this.isPlaying = !this.isPlaying
       this.$emit('toggleIsPlaying', this.isPlaying)
+    },
+    toggleModal() {
+      this.isShowingAdjustments = !this.isShowingAdjustments
     },
   },
 }
@@ -82,7 +98,7 @@ export default {
 .actions__button--toggle
   @extends .actions__button
   border 2px solid $border-color
-  box-shadow 0 1px 3px rgba(#000.12), 0 1px 2px rgba(#000.24)
+  addShadow()
 
 .toggle-buttons-enter-active
   transition all .2s linear
