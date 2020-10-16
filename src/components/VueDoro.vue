@@ -24,6 +24,14 @@
 import AppHeader from '@/components/AppHeader'
 import VueDoroTimer from '@/components/VueDoroTimer'
 import VueDoroActions from '@/components/VueDoroActions'
+import timer from '@/enums/timer'
+
+const {
+  FOCUS,
+  SHORT,
+  LONG,
+  ROUNDS,
+} = timer
 
 export default {
   components: {
@@ -34,21 +42,21 @@ export default {
   data() {
     return {
       actualRound: 1,
-      rounds: 4,
+      rounds: ROUNDS,
       isPlaying: false,
       actualStep: null,
       steps: {
         focus: {
-          time: '25:00',
-          title: 'Focus time',
+          time: FOCUS.TIME,
+          title: FOCUS.LABEL,
         },
         shortBreak: {
-          time: '05:00',
-          title: 'Short break',
+          time: SHORT.TIME,
+          title: SHORT.LABEL,
         },
         longBreak: {
-          time: '15:00',
-          title: 'Long break',
+          time: LONG.TIME,
+          title: LONG.LABEL,
         },
       },
     }
@@ -60,9 +68,9 @@ export default {
     actualStepClass() {
       if (!this.actualStep) return ''
       const step = {
-        'Focus time': 'focus',
-        'Short break': 'short',
-        'Long break': 'long',
+        [FOCUS.LABEL]: 'focus',
+        [SHORT.LABEL]: 'short',
+        [LONG.LABEL]: 'long',
       }
       return `page--${step[this.actualStep.title]}`
     },
@@ -70,14 +78,14 @@ export default {
   methods: {
     setNextStep() {
       const { title } = this.actualStep
-      if (title === 'Long break') {
+      if (title === LONG.LABEL) {
         this.setActualRound(1)
         this.setActualStep(this.steps.focus)
-      } else if (title === 'Focus time' && this.actualRound === this.rounds) {
+      } else if (title === FOCUS.LABEL && this.actualRound === this.rounds) {
         this.setActualStep(this.steps.longBreak)
-      } else if (title === 'Focus time' && this.actualRound !== this.rounds) {
+      } else if (title === FOCUS.LABEL && this.actualRound !== this.rounds) {
         this.setActualStep(this.steps.shortBreak)
-      } else if (title === 'Short break' && this.actualRound !== this.rounds) {
+      } else if (title === SHORT.LABEL && this.actualRound !== this.rounds) {
         this.setActualStep(this.steps.focus)
         this.setActualRound(this.actualRound + 1)
       }
