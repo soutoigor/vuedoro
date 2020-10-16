@@ -1,16 +1,30 @@
 <template>
-  <div class="timer">
-    <span class="timer__numbers">
+  <radial-progress-bar
+    :diameter="timerDiameter"
+    :total-steps="timerTotalSteps"
+    :completed-steps="completedSteps"
+    :stroke-width="5"
+    :inner-stroke-width="2"
+    inner-stroke-color="#888"
+    start-color="#888"
+    stop-color="#444"
+    :is-clockwise="false"
+  >
+    <span class="timer-numbers">
       {{ actualTimer }}
     </span>
-  </div>
+  </radial-progress-bar>
 </template>
 
 <script>
 import moment from 'moment'
 import alarm from '@/assets/alarm.mp3'
+import RadialProgressBar from 'vue-radial-progress'
 
 export default {
+  components: {
+    RadialProgressBar,
+  },
   props: {
     timer: {
       type: String,
@@ -23,11 +37,22 @@ export default {
   },
   data() {
     return {
-      actualTimer: null,
+      actualTimer: '',
       timerInterval: null,
+      timerDiameter: 400,
     }
   },
-  created() {
+  computed: {
+    timerTotalSteps() {
+      return this.transformTimeToNumber(this.timer)
+    },
+    completedSteps() {
+      return this.transformTimeToNumber(this.actualTimer) - Math.abs(this.timerTotalSteps)
+    },
+  },
+  mounted() {
+    this.setTimerWidth()
+    window.addEventListener('resize', this.setTimerWidth)
     this.setActualTimer(this.timer)
   },
   watch: {
@@ -51,13 +76,31 @@ export default {
         this.changePageTitle(value)
       }
       if (oldValue === '00:01' && value === '00:00') {
-        this.stopCountdownTimer()
-        this.playAlarm()
-        this.setTimeFinished()
+        const LAST_SECOND = 1000
+        setTimeout(() => {
+          this.stopCountdownTimer()
+          this.playAlarm()
+          this.setTimeFinished()
+        }, LAST_SECOND)
       }
     },
   },
   methods: {
+    transformTimeToNumber(time) {
+      return +time.replace(':', '')
+    },
+    setTimerWidth() {
+      const { width } = window.screen
+      if (width <= 450) {
+        this.timerDiameter = 300
+      }
+      if (width < 350) {
+        this.timerDiameter = 250
+      }
+      if (width > 450) {
+        this.timerDiameter = 400
+      }
+    },
     changePageTitle(value) {
       document.title = value
     },
@@ -91,20 +134,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-timerSize(fontSize)
-  width fontSize * 4
-  height @width
-
-.timer
-  border 2px solid $border-color
-  border-radius 100%
-  justifyCenter()
-  alignCenter()
-  timerSize(6rem)
-  @media screen and (max-width $mobile)
-    timerSize(4rem)
-
-.timer__numbers
+.timer-numbers
   font-size 6rem
   @media screen and (max-width $mobile)
     font-size 4rem

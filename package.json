@@ -16,6 +16,7 @@
     "vue": "^2.6.11",
     "vue-feather-icons": "^5.1.0",
     "vue-fragment": "^1.5.1",
+    "vue-radial-progress": "^0.3.2",
     "vue-the-mask": "^0.11.1"
   },
   "devDependencies": {
