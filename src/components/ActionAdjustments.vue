@@ -8,7 +8,7 @@
         aria-describedby="modalDescription"
       >
         <header>
-          <h1 class="modal__title ">Adjustments</h1>
+          <h1 class="modal__title">Adjustments</h1>
           <button @click="close" class="modal__close">
             <x-icon size="2x" />
           </button>
@@ -92,6 +92,14 @@
 <script>
 import { XIcon } from 'vue-feather-icons'
 import { mask } from 'vue-the-mask'
+import timer from '@/enums/timer'
+
+const {
+  FOCUS,
+  SHORT,
+  LONG,
+  ROUNDS,
+} = timer
 
 export default {
   components: {
@@ -101,10 +109,10 @@ export default {
   data() {
     return {
       adjustments: {
-        focus: '25:00',
-        shortBreak: '05:00',
-        longBreak: '15:00',
-        rounds: 4,
+        focus: FOCUS.TIME,
+        shortBreak: SHORT.TIME,
+        longBreak: LONG.TIME,
+        rounds: ROUNDS,
       },
     }
   },
