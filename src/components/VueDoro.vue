@@ -1,5 +1,5 @@
 <template>
-  <div :class="`page ${actualStepClass}`">
+  <div :class="`${actualStepClass}`">
     <app-header />
     <main class="page__main">
       <h2 class="main__step-title">{{ actualStep.title }}</h2>
@@ -12,7 +12,7 @@
         {{ actualRound }}/{{ rounds }} rounds
       </span>
       <vue-doro-actions
-        @setAdjustments="setSteps"
+        @setAdjustments="setAdjustments"
         @toggleIsPlaying="setIsPlaying"
         @skipStep="setNextStep"
       />
@@ -34,6 +34,7 @@ const {
 } = timer
 
 export default {
+  name: 'VueDoro',
   components: {
     AppHeader,
     VueDoroTimer,
@@ -99,7 +100,7 @@ export default {
     setActualRound(value) {
       this.actualRound = value
     },
-    setSteps(steps) {
+    setAdjustments(steps) {
       Object.entries(steps).forEach(([key, value]) => {
         if (key === 'rounds') {
           this.rounds = +value
@@ -127,12 +128,15 @@ export default {
     padding 0 1.3rem
 
   .page--focus
+    @extends .page
     pageStatusGradient($cosmos)
 
   .page--short
+    @extends .page
     pageStatusGradient($pattens-blue)
 
   .page--long
+    @extends .page
     pageStatusGradient($tana)
 
   .page__main
