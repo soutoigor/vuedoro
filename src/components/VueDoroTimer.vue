@@ -117,7 +117,7 @@ export default {
     stopCountdownTimer() {
       clearInterval(this.timerInterval)
     },
-    subtractOneMinute() {
+    subtractOneSecond() {
       const subtractedTime = moment(this.actualTimer, 'mm:ss')
         .subtract(1, 'seconds')
         .format('mm:ss')
@@ -126,7 +126,7 @@ export default {
     initCountdownTimer() {
       const INTERVAL_TIME = 1000
       this.timerInterval = setInterval(() => {
-        this.subtractOneMinute()
+        this.subtractOneSecond()
       }, INTERVAL_TIME)
     },
   },
